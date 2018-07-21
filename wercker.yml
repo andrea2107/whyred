@@ -1,0 +1,7 @@
+box: ubuntu
+build:
+ steps:
+  - script:
+    name: compile
+    code: |
+     bash script.sh
