@@ -4,4 +4,4 @@ build:
   - script:
     name: compile
     code: |
-     bash script.sh
+     bash build.sh
