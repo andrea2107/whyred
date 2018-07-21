@@ -32,7 +32,7 @@ export CROSS_COMPILE=/pipeline/build/root/toolchain/aarch64-linux-android-4.9/bi
 export LD_LIBRARY_PATH=/pipeline/build/root/toolchain/aarch64-linux-android-4.9/lib/
 export USE_CCACHE=1
 export CCACHE_DIR=$CCACHEDIR/.ccache
-curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="New kernel build started for **$DEVICE**!" -d chat_id=@andreabuilds;
+curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="New kernel build started for whyred!" -d chat_id=@andreabuilds;
 make clean && make mrproper
 make whyred_defconfig
 make -j$( nproc --all )
@@ -51,7 +51,7 @@ cp $KERNEL_DIR/arch/arm64/boot/Image.gz-dtb $ANYKERNEL_DIR
 
     curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="Build failed :c" -d chat_id=@andreabuilds;
     exit 1
-
+ 
   fi
 
 }
