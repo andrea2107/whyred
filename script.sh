@@ -61,4 +61,5 @@ message="Build completed with the latest commit -"
 curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="$message $(git log --pretty=format:'%h : %s' -1)" -d chat_id=@andreabuilds
 curl -F chat_id="-1001235553927" -F document=@"$FINAL_ZIP" https://api.telegram.org/bot$BOT_API_KEY/sendDocument
 curl -F chat_id="-1001235553927" -F document=@"$KERNEL_DIR/include/generated/compile.h" https://api.telegram.org/bot$BOT_API_KEY/sendDocument
+
 mv $FINAL_ZIP /pipeline/output/$FINAL_ZIP
