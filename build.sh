@@ -11,11 +11,11 @@ KERNEL_NAME="Lasagnatest-Kernel"
 DEVICE="-whyred-"
 VER="-v0.0.1"
 TYPE="-O-MR1"
-KERN_IMG=$KERNEL_DIR/out/arch/arm64/boot/Image.gz-dtb
+KERN_IMG=$KERNEL_DIR/arch/arm64/boot/Image.gz-dtb
 FINAL_ZIP="$KERNEL_NAME""$DEVICE""$DATE""$TYPE""$VER".zip
 INSTALL_HDR_PATH=/usr
 rm $ANYKERNEL_DIR/Image.gz-dtb
-rm $KERNEL_DIR/out/arch/arm64/boot/Image.gz $KERNEL_DIR/arch/arm64/boot/Image.gz-dtb
+rm $KERNEL_DIR/arch/arm64/boot/Image.gz $KERNEL_DIR/arch/arm64/boot/Image.gz-dtb
 export ARCH=arm64
 export CXX="/pipeline/build/root/toolchain/aarch64-linux-android-clang/clang-4679922/bin/clang++"
 export CC="/pipeline/build/root/toolchain/aarch64-linux-android-clang/clang-4679922/bin/clang"
@@ -30,8 +30,8 @@ mkdir out
 curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="New kernel build started for whyred!" -d chat_id=@andreabuilds;
 make clean && make mrproper
 make headers_install ARCH=arm64
-make whyred_defconfig O=out ARCH=arm64
-make -j$( nproc --all ) O=out ARCH=arm64
+make whyred_defconfig ARCH=arm64
+make -j$( nproc --all ) ARCH=arm64
 {
   #try block
 cp $KERN_IMG $ANYKERNEL_DIR
@@ -47,5 +47,5 @@ zip -r9 $FINAL_ZIP * -x *.zip $FINAL_ZIP
 message="Build completed with the latest commit -"
 curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="$message $(git log --pretty=format:'%h : %s' -1)" -d chat_id=@andreabuilds
 curl -F chat_id="-1001235553927" -F document=@"$FINAL_ZIP" https://api.telegram.org/bot$BOT_API_KEY/sendDocument
-curl -F chat_id="-1001235553927" -F document=@"$KERNEL_DIR/out/include/generated/compile.h" https://api.telegram.org/bot$BOT_API_KEY/sendDocument
+curl -F chat_id="-1001235553927" -F document=@"$KERNEL_DIR/include/generated/compile.h" https://api.telegram.org/bot$BOT_API_KEY/sendDocument
 mv $FINAL_ZIP /pipeline/output/$FINAL_ZIP
