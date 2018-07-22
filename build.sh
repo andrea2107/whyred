@@ -26,6 +26,7 @@ export LD_LIBRARY_PATH=/pipeline/build/root/toolchain/aarch64-linux-android-4.9/
 export USE_CCACHE=1
 export O=out
 export CCACHE_DIR=$CCACHEDIR/.ccache
+mkdir out
 curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="New kernel build started for whyred!" -d chat_id=@andreabuilds;
 make clean && make mrproper
 make whyred_defconfig
