@@ -29,6 +29,7 @@ export CCACHE_DIR=$CCACHEDIR/.ccache
 mkdir out
 curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="New kernel build started for whyred!" -d chat_id=@andreabuilds;
 make clean && make mrproper
+make headers_install INSTALL_HDR_PATH=/usr
 make whyred_defconfig
 make -j$( nproc --all )
 {
