@@ -29,9 +29,9 @@ export CCACHE_DIR=$CCACHEDIR/.ccache
 mkdir out
 curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="New kernel build started for whyred!" -d chat_id=@andreabuilds;
 make clean && make mrproper
-make headers_install 
-make whyred_defconfig O=out
-make -j$( nproc --all ) O=out
+make headers_install ARCH=arm64
+make whyred_defconfig O=out ARCH=arm64
+make -j$( nproc --all ) O=out ARCH=arm64
 {
   #try block
 cp $KERN_IMG $ANYKERNEL_DIR
