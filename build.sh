@@ -13,8 +13,9 @@ VER="-v0.0.1"
 TYPE="-O-MR1"
 KERN_IMG=$KERNEL_DIR/out/arch/arm64/boot/Image.gz-dtb
 FINAL_ZIP="$KERNEL_NAME""$DEVICE""$DATE""$TYPE""$VER".zip
+INSTALL_HDR_PATH=/usr
 rm $ANYKERNEL_DIR/Image.gz-dtb
-rm $KERNEL_DIR/arch/arm64/boot/Image.gz $KERNEL_DIR/arch/arm64/boot/Image.gz-dtb
+rm $KERNEL_DIR/out/arch/arm64/boot/Image.gz $KERNEL_DIR/arch/arm64/boot/Image.gz-dtb
 export ARCH=arm64
 export CXX="/pipeline/build/root/toolchain/aarch64-linux-android-clang/clang-4679922/bin/clang++"
 export CC="/pipeline/build/root/toolchain/aarch64-linux-android-clang/clang-4679922/bin/clang"
@@ -24,14 +25,13 @@ export KBUILD_BUILD_HOST="SlaveBuilder"
 export CROSS_COMPILE=/pipeline/build/root/toolchain/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 export LD_LIBRARY_PATH=/pipeline/build/root/toolchain/aarch64-linux-android-4.9/lib/
 export USE_CCACHE=1
-export O=out
 export CCACHE_DIR=$CCACHEDIR/.ccache
 mkdir out
 curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="New kernel build started for whyred!" -d chat_id=@andreabuilds;
 make clean && make mrproper
-make headers_install INSTALL_HDR_PATH=/usr
-make whyred_defconfig
-make -j$( nproc --all )
+make headers_install 
+make whyred_defconfig O=out
+make -j$( nproc --all ) O=out
 {
   #try block
 cp $KERN_IMG $ANYKERNEL_DIR
